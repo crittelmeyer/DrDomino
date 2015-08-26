@@ -1,6 +1,9 @@
 var React = require('react-native');
 var _ = require('lodash');
 
+var GlobalConfig = require('./global_config');
+var Tile = require('./components/tile');
+
 var {
     AppRegistry,
     StyleSheet,
@@ -9,54 +12,22 @@ var {
     View,
 } = React;
 
-const TILE_ORIENTATION = {
-    VERTICAL: 'v',
-    HORIZONTAL: 'h'
-};
-
-const TILE_PIPS = {
-    MIN: 1,
-    MAX: 6
-};
-
-var TileCell = React.createClass({
-    render() {
-        var pips = _.repeat('*', this.props.value);
-
-        return (
-            <View style={styles.tileCell}>
-                <Text>{pips}</Text>
-            </View>
-        );
-    }
-});
-
-var Tile = React.createClass({
-    render() {
-        return (
-            <View style={[styles.tile, this.props.orientation === TILE_ORIENTATION.HORIZONTAL && styles.rotate]}>
-                <TileCell value={this.props.value[0]} />
-                <TileCell value={this.props.value[1]} />
-            </View>
-        );
-    }
-});
-
 var Stage = React.createClass({
     getInitialState() {
         return {
             tile: {
                 value: [3, 4],
-                orientation: TILE_ORIENTATION.VERTICAL
+                orientation: GlobalConfig.TILE_ORIENTATION.VERTICAL
             }
         };
     },
     _handleRandomButtonPress() {
-        var val1 = Math.floor(Math.random() * (TILE_PIPS.MAX - TILE_PIPS.MIN) + TILE_PIPS.MIN);
-        var val2 = Math.floor(Math.random() * (TILE_PIPS.MAX - TILE_PIPS.MIN) + TILE_PIPS.MIN);
+        var range = (GlobalConfig.TILE_PIPS.MAX - GlobalConfig.TILE_PIPS.MIN);
+        var val1 = Math.floor(Math.random() * range + GlobalConfig.TILE_PIPS.MIN);
+        var val2 = Math.floor(Math.random() * range + GlobalConfig.TILE_PIPS.MIN);
         var orientation = Math.floor(Math.random() * 2) === 1 ?
-            TILE_ORIENTATION.VERTICAL :
-            TILE_ORIENTATION.HORIZONTAL;
+            GlobalConfig.TILE_ORIENTATION.VERTICAL :
+            GlobalConfig.TILE_ORIENTATION.HORIZONTAL;
 
         this.setState({
             tile: {
@@ -169,21 +140,6 @@ var styles = StyleSheet.create({
         color: 'black',
         fontSize: 10
     },
-    tile: {
-        height: 100,
-        width: 50
-    },
-    rotate: {
-        transform: [{rotate: '90deg'}]
-    },
-    tileCell: {
-        alignItems: 'center',
-        borderRadius: 4,
-        borderWidth: 1,
-        height: 50,
-        justifyContent: 'center',
-        width: 50
-    }
 });
 
 AppRegistry.registerComponent('DrDomino', () => DrDomino);
