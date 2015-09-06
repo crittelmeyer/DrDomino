@@ -1,13 +1,13 @@
 var React = require('react-native');
 
-var GlobalConfig = require('../global_config');
+var GlobalConfig = require('../../../global_config');
 var TileCell = require('./tile_cell');
 
 var {
     StyleSheet,
     Text,
     View
-    } = React;
+} = React;
 
 var Tile = React.createClass({
     render() {
@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
     },
     rotate: {
         transform: [{rotate: '90deg'}]
-    },
+    }
 });
 
 module.exports = Tile;
